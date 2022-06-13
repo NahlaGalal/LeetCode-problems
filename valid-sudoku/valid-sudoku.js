@@ -7,6 +7,7 @@ var isValidSudoku = function(board) {
     for (let i=0; i<9; i++) {
         let rowSet = new Set();
         let colSet = new Set();
+        
         let lastSizeRow = rowSet.size;
         let lastSizeCol = colSet.size;
         
@@ -24,26 +25,24 @@ var isValidSudoku = function(board) {
                 if(rowSet.size === lastSizeRow) return false;
                 lastSizeRow = rowSet.size;
             }
-        }
-    }
-    
-    // Check for squares
-    for(let i=0; i<9; i+=3) {
-        for(let j=0; j<9; j+=3) {
-        
-            let set = new Set();
-            let lastSize = set.size;
-            for(let k=i; k<i+3; k++) {
-                for(let l=j; l<j+3; l++) {
-                    if(board[k][l] !== ".") {
-                        set.add(board[k][l]);
-                        if(set.size === lastSize) return false;
-                        lastSize = set.size;
+            
+            // Check for squares
+            if(!(i % 3) && !(j % 3)) {
+                let squSet = new Set();
+                let lastSizeSqu = squSet.size;
+                
+                for(let k=i; k<i+3; k++) {
+                    for(let l=j; l<j+3; l++) {
+                        if(board[k][l] !== ".") {
+                            squSet.add(board[k][l]);
+                            if(squSet.size === lastSizeSqu) return false;
+                            lastSizeSqu = squSet.size;
+                        }
                     }
-                }
+                }   
             }
         }
     }
-    
+
     return true;
 };
